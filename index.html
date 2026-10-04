@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Грузинский каждый день</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Georgian:wght@500;700&family=Onest:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EEF3F1;--surface:#FFFFFF;--ink:#1D2A2F;--muted:#5E6E73;--line:#D3DEDA;
+  --grape:#6B2D5C;--grape-deep:#4E1F43;--grape-soft:#F1E3EE;
+  --sea:#1F6F78;--sea-deep:#15525A;--sea-soft:#DCEDEE;
+  --gold:#D99A1E;--gold-soft:#FBEFD4;
+  --ok:#2F8F5B;--ok-deep:#226B43;--ok-soft:#DFF2E6;
+  --bad:#C0413A;--bad-deep:#98302A;--bad-soft:#F8E1DF;
+  --lock:#C9D3D0;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#12191B;--surface:#1B2528;--ink:#E8EFEC;--muted:#95A7AA;--line:#2C3A3E;
+    --grape:#C77DB3;--grape-deep:#8F4F7F;--grape-soft:#38212F;
+    --sea:#5FB7BF;--sea-deep:#3C8A92;--sea-soft:#173538;
+    --gold:#F0B84A;--gold-soft:#3A2F17;
+    --ok:#5BC48A;--ok-deep:#3A9565;--ok-soft:#173826;
+    --bad:#E7766E;--bad-deep:#B6524B;--bad-soft:#3F1F1D;
+    --lock:#34454A;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12191B;--surface:#1B2528;--ink:#E8EFEC;--muted:#95A7AA;--line:#2C3A3E;
+  --grape:#C77DB3;--grape-deep:#8F4F7F;--grape-soft:#38212F;
+  --sea:#5FB7BF;--sea-deep:#3C8A92;--sea-soft:#173538;
+  --gold:#F0B84A;--gold-soft:#3A2F17;
+  --ok:#5BC48A;--ok-deep:#3A9565;--ok-soft:#173826;
+  --bad:#E7766E;--bad-deep:#B6524B;--bad-soft:#3F1F1D;
+  --lock:#34454A;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);
+  font-family:"Onest","Noto Serif Georgian",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.45;
+  -webkit-tap-highlight-color:transparent}
+.ka{font-family:"Noto Serif Georgian","Sylfaen","DejaVu Sans",serif}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+button:focus-visible,input:focus-visible{outline:3px solid var(--sea);outline-offset:2px}
+.wrap{max-width:560px;margin:0 auto;padding:0 18px}
+
+/* Top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:56px}
+.brand{font-size:22px;font-weight:700;color:var(--grape)}
+.stats{display:flex;gap:14px;font-weight:700}
+.stat{display:flex;align-items:center;gap:5px}
+.stat.fire{color:var(--gold)}
+.stat.xp{color:var(--sea)}
+
+main{padding:18px 0 120px}
+
+/* Today */
+.today{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+.ring{width:76px;height:76px;position:relative}
+.ring svg{transform:rotate(-90deg)}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:15px}
+.today h2{margin:0 0 4px;font-size:18px}
+.today p{margin:0;color:var(--muted);font-size:14px}
+.week{grid-column:1/-1;display:flex;justify-content:space-between;padding-top:6px}
+.day{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;color:var(--muted);flex:1}
+.dot{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:14px;font-weight:800}
+.dot.met{background:var(--gold);border-color:var(--gold);color:#fff}
+.dot.tried{border-color:var(--gold)}
+.day.is-today{color:var(--ink);font-weight:700}
+
+.review{margin-top:14px;width:100%;display:flex;align-items:center;justify-content:space-between;background:var(--sea-soft);color:var(--sea-deep);border-radius:16px;padding:14px 18px;font-weight:700}
+:root[data-theme="dark"] .review{color:var(--sea)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .review{color:var(--sea)}}
+
+/* Path */
+.unit{margin-top:28px;border-radius:20px;padding:16px 18px;color:#fff}
+.unit h3{margin:0;font-size:19px}
+.unit p{margin:2px 0 0;opacity:.85;font-size:14px}
+.u0{background:var(--grape)} .u1{background:var(--sea)}
+.path{display:flex;flex-direction:column;align-items:center;gap:18px;padding:22px 0 4px}
+.node{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px}
+.node .disc{width:74px;height:70px;border-radius:50%;display:grid;place-items:center;font-size:32px;font-weight:700;color:#fff;
+  box-shadow:0 6px 0 var(--shade);transition:transform .08s}
+.node button:active .disc{transform:translateY(4px);box-shadow:0 2px 0 var(--shade)}
+.node .lbl{font-size:13px;font-weight:600;color:var(--muted);text-align:center;max-width:140px}
+.node.done .disc{background:var(--c);--shade:var(--cd)}
+.node.current .disc{background:var(--c);--shade:var(--cd);outline:5px solid var(--cs);outline-offset:4px}
+.node.locked .disc{background:var(--lock);--shade:var(--line);color:var(--muted)}
+.node.locked button{cursor:not-allowed}
+.node .check{position:absolute;top:-4px;right:-6px;width:26px;height:26px;border-radius:50%;background:var(--gold);color:#fff;display:grid;place-items:center;font-size:14px;font-weight:800;border:3px solid var(--bg)}
+.node.current .lbl{color:var(--ink)}
+.startTag{position:absolute;top:-34px;background:var(--surface);border:2px solid var(--line);border-radius:10px;padding:2px 10px;font-size:13px;font-weight:800;color:var(--c);white-space:nowrap}
+.g0{--c:var(--grape);--cd:var(--grape-deep);--cs:var(--grape-soft)}
+.g1{--c:var(--sea);--cd:var(--sea-deep);--cs:var(--sea-soft)}
+
+/* Sections */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;margin-top:16px}
+.card h2{margin:0 0 12px;font-size:18px}
+.goal{margin:14px 0}
+.goal .row{display:flex;justify-content:space-between;gap:12px;font-size:15px}
+.goal .row span:last-child{color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.bar{height:12px;border-radius:8px;background:var(--line);overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;border-radius:8px;background:var(--grape);transition:width .4s}
+.bar i.full{background:var(--ok)}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.seg button{border:2px solid var(--line);border-radius:14px;padding:10px 6px;text-align:center}
+.seg button b{display:block;font-size:15px}
+.seg button small{color:var(--muted);font-size:12px}
+.seg button[aria-pressed="true"]{border-color:var(--grape);background:var(--grape-soft)}
+.custom{list-style:none;margin:0;padding:0}
+.custom li{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.custom li:last-child{border-bottom:0}
+.tick{width:28px;height:28px;flex:none;border-radius:9px;border:2px solid var(--line);display:grid;place-items:center;font-weight:800;color:#fff}
+.tick.on{background:var(--ok);border-color:var(--ok)}
+.custom .txt{flex:1}
+.custom .txt.on{color:var(--muted);text-decoration:line-through}
+.del{color:var(--muted);font-size:22px;padding:0 6px}
+.add{display:flex;gap:8px;margin-top:12px}
+.add input{flex:1;min-width:0;font:inherit;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:10px 12px}
+.add button{background:var(--grape);color:#fff;border-radius:12px;padding:0 16px;font-weight:700}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal span{aspect-ratio:1;border-radius:8px;background:var(--line);opacity:.6}
+.cal span.tried{background:var(--gold-soft);opacity:1;border:2px solid var(--gold)}
+.cal span.met{background:var(--gold);opacity:1}
+.cal span.today{outline:2px solid var(--ink);outline-offset:1px}
+.legend{display:flex;gap:14px;font-size:13px;color:var(--muted);margin-top:10px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:4px;vertical-align:-1px;margin-right:4px}
+
+.abc{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px}
+.abc div{border-radius:14px;padding:8px 4px 6px;text-align:center;background:var(--bg);border:1px solid var(--line)}
+.abc .ka{font-size:30px;line-height:1.2;display:block}
+.abc small{font-size:13px;color:var(--muted)}
+.abc .on{background:var(--grape-soft);border-color:transparent}
+.abc .on .ka{color:var(--grape)}
+.abc .off{opacity:.45}
+.hint{color:var(--muted);font-size:14px;margin:0 0 12px}
+
+/* Bottom nav */
+.nav{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);z-index:6}
+.nav .wrap{display:flex}
+.nav button{flex:1;padding:10px 0 12px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;font-weight:600;color:var(--muted)}
+.nav button .ic{font-size:22px;line-height:1}
+.nav button[aria-current="page"]{color:var(--grape)}
+
+/* Lesson */
+.lesson{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
+.lhead{display:flex;align-items:center;gap:14px;padding:14px 0}
+.x{font-size:28px;color:var(--muted);width:36px;height:36px;line-height:1}
+.pbar{flex:1;height:16px;background:var(--line);border-radius:10px;overflow:hidden}
+.pbar i{display:block;height:100%;background:var(--ok);border-radius:10px;transition:width .3s}
+.lbody{flex:1;padding:12px 0 24px}
+.prompt{font-size:21px;font-weight:700;margin:6px 0 18px}
+.hero{text-align:center;margin:8px 0 24px}
+.hero .ka{font-size:44px;color:var(--grape);line-height:1.3}
+.hero .big{font-size:96px;line-height:1.1}
+.hero .ru{font-size:24px;font-weight:700}
+.hero .sub{color:var(--muted);font-size:17px;margin-top:4px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opts.one{grid-template-columns:1fr}
+.opt{border:2px solid var(--line);border-bottom-width:4px;border-radius:16px;padding:14px 10px;font-size:18px;font-weight:600;text-align:center;background:var(--surface);min-height:60px}
+.opt.ka{font-size:24px;font-weight:500}
+.opt[aria-pressed="true"]{border-color:var(--sea);background:var(--sea-soft);color:var(--sea-deep)}
+:root[data-theme="dark"] .opt[aria-pressed="true"]{color:var(--sea)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .opt[aria-pressed="true"]{color:var(--sea)}}
+.opt:disabled{cursor:default}
+.slot{min-height:72px;border-bottom:2px solid var(--line);display:flex;flex-wrap:wrap;gap:8px;padding:8px 0;margin-bottom:22px;align-content:flex-start}
+.pool{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.tile{border:2px solid var(--line);border-bottom-width:4px;border-radius:12px;padding:8px 14px;font-size:22px;background:var(--surface);min-width:48px}
+.tile.used{visibility:hidden}
+.intro{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:26px 18px;text-align:center}
+.intro .tag{display:inline-block;background:var(--gold-soft);color:var(--ink);border-radius:8px;padding:2px 10px;font-size:13px;font-weight:700;margin-bottom:10px}
+.intro .glyph{font-size:120px;line-height:1.15;color:var(--grape)}
+.intro .phr{font-size:34px;color:var(--grape);line-height:1.35}
+.intro .snd{font-size:28px;font-weight:800;margin-top:6px}
+.intro .note{color:var(--muted);margin-top:6px}
+.lfoot{position:sticky;bottom:0;padding:16px 0 calc(16px + env(safe-area-inset-bottom,0px));background:var(--bg);border-top:1px solid var(--line);margin:0 -18px;padding-left:18px;padding-right:18px}
+.lfoot.good{background:var(--ok-soft);border-color:transparent}
+.lfoot.badf{background:var(--bad-soft);border-color:transparent}
+.fb{margin-bottom:12px}
+.fb b{font-size:19px;display:block}
+.good .fb b{color:var(--ok)} .badf .fb b{color:var(--bad)}
+.fb p{margin:4px 0 0}
+.btn{width:100%;border-radius:16px;padding:15px;font-size:17px;font-weight:800;color:#fff;background:var(--ok);box-shadow:0 4px 0 var(--ok-deep)}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ok-deep)}
+.btn:disabled{background:var(--lock);box-shadow:0 4px 0 var(--line);color:var(--muted);cursor:default;transform:none}
+.badf .btn{background:var(--bad);box-shadow:0 4px 0 var(--bad-deep)}
+.btn.grape{background:var(--grape);box-shadow:0 4px 0 var(--grape-deep)}
+
+/* Verb tables */
+.intro h3{margin:4px 0 6px;font-size:22px}
+.rtext{margin:0 auto;max-width:42ch}
+.vt{width:100%;border-collapse:collapse;margin:16px 0 6px;text-align:left}
+.vt td{padding:9px 6px;border-top:1px solid var(--line);font-size:15px;vertical-align:middle}
+.vt td.ka{font-size:22px;color:var(--grape);white-space:nowrap}
+.vt td.who{color:var(--muted);font-size:14px}
+.vt td.mk{font-weight:700}
+.vt td.ru{color:var(--muted);font-size:14px}
+.gtag{display:inline-block;margin-top:6px;background:var(--sea-soft);color:var(--sea-deep);border-radius:8px;padding:3px 10px;font-size:14px;font-weight:700}
+:root[data-theme="dark"] .gtag{color:var(--sea)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .gtag{color:var(--sea)}}
+/* End */
+.end{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:30px 0}
+.end .burst{font-size:92px;line-height:1;margin-bottom:8px;animation:pop .6s cubic-bezier(.2,1.6,.4,1) both}
+.end h1{margin:8px 0;font-size:28px}
+.end p{color:var(--muted);margin:0 0 6px}
+.chips{display:flex;gap:10px;justify-content:center;margin:22px 0 30px;flex-wrap:wrap}
+.chip{border:2px solid var(--line);border-radius:16px;padding:10px 16px;min-width:100px}
+.chip b{display:block;font-size:22px}
+.chip small{color:var(--muted)}
+.chip.gold{border-color:var(--gold)} .chip.gold b{color:var(--gold)}
+.chip.sea{border-color:var(--sea)} .chip.sea b{color:var(--sea)}
+.streakbox{background:var(--gold-soft);border-radius:18px;padding:14px;margin-bottom:24px;font-weight:700}
+@keyframes pop{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+(function(){
+"use strict";
+
+/* ---------- Content ---------- */
+function V(g,ru,a,b,c){return {g,ru,forms:[a,b,c]}}
+const GROUPS={be:"Быть: ვარ / ხარ",feel:"Чувства: м- / г-",act:"Действие: в- / -ს",move:"Передвижение: -დივარ"};
+const GROUP_WHY={
+ be:"глагол «быть»: ვარ, ხარ, არის",
+ feel:"м- в начале = я, г- = ты: это чувство или состояние",
+ act:"в- в начале = я, -ს на конце = он(а): это действие",
+ move:"на конце -ვდივარ: передвижение, меняется только приставка"};
+const RULES={
+ be:{title:"Глагол «быть»",text:"По-грузински нельзя сказать «я в Батуми» без глагола. Говорят «я есть в Батуми».",
+   rows:[["я","","ვარ","вар"],["ты","","ხარ","хар"],["он / она","","არის","арис"]],
+   note:"Местоимение можно не говорить: ბათუმში ვარ — я в Батуми."},
+ feel:{title:"Чувства и состояния",text:"Это не действия, а то, что с вами происходит: хочу, имею, люблю, голодна, холодно.",
+   rows:[["я","м-","მინდა","минда"],["ты","г-","გინდა","гинда"],["он / она","у-, с- или ничего","უნდა","унда"]],
+   note:"По приставке уже понятно, о ком речь: გშია? — ты голоден? Форму «он / она» запоминайте вместе с глаголом."},
+ act:{title:"Глаголы действия",text:"Всё, что вы делаете: работаю, учу, готовлю, мою, покупаю.",
+   rows:[["я","в- в начале","ვმუშაობ","вмушаоб"],["ты","просто основа","მუშაობ","мушаоб"],["он / она","-ს на конце","მუშაობს","мушаобс"]],
+   note:"Любой глагол действия спрягается по этой же схеме."},
+ move:{title:"Глаголы передвижения",text:"Это один глагол «идти», к которому на конце цепляется «быть».",
+   rows:[["я","…ვდივარ","მივდივარ","мивдивар"],["ты","…დიხარ","მიდიხარ","мидихар"],["он / она","…დის","მიდის","мидис"]],
+   note:"Меняется только приставка направления: მი- туда, მო- сюда."},
+ dir:{title:"Приставки направления",text:"Окончания всегда те же, меняется только начало.",
+   rows:[["вверх","ა-","ავდივარ","авдивар"],["вниз","ჩა-","ჩავდივარ","чавдивар"],["внутрь","შე-","შევდივარ","шевдивар"],["наружу","გა-","გავდივარ","гавдивар"],["через","გადა-","გადავდივარ","гадавдивар"]],
+   note:"Маршрут до кофейни: спускаюсь, выхожу, перехожу, вхожу."},
+ all:{title:"Четыре группы",text:"Увидели новый глагол? Сначала определите группу, и вы уже знаете, как его спрягать.",
+   rows:[["быть","ვარ / ხარ","ვარ","вар"],["чувства","м- / г-","მშია","мшиа"],["действие","в- / -ს","ვმუშაობ","вмушаоб"],["движение","…ვდივარ","მივდივარ","мивдивар"]],
+   note:"Смотрите на начало и конец слова: там вся подсказка."}
+};
+const LESSONS = [
+ {id:"a1",unit:0,type:"letters",title:"Первые буквы",letters:[["ა","а","как «а»"],["მ","м","как «м»"],["დ","д","как «д»"],["ე","э","как «э» в слове «эхо»"],["ი","и","как «и»"]]},
+ {id:"a2",unit:0,type:"letters",title:"Уже читаем",letters:[["ლ","л","между «л» и «ль»"],["ნ","н","как «н»"],["ო","о","всегда чёткое «о», без «а»"],["რ","р","как «р»"],["ს","с","как «с»"]]},
+ {id:"a3",unit:0,type:"letters",title:"Звонкие и «т»",letters:[["ბ","б","как «б»"],["გ","г","как «г»"],["თ","т","«т» с лёгким выдохом"],["ვ","в","как «в»"],["ზ","з","как «з»"]]},
+ {id:"a4",unit:0,type:"letters",title:"С выдохом и без",letters:[["უ","у","как «у»"],["ქ","к","«к» с лёгким выдохом"],["ხ","х","как «х»"],["ტ","т’","резкое «т», без выдоха"],["პ","п’","резкое «п», без выдоха"]]},
+ {id:"a5",unit:0,type:"letters",title:"Резкие звуки",letters:[["კ","к’","резкое «к», без выдоха"],["ფ","п","«п» с лёгким выдохом"],["შ","ш","как «ш»"],["ჩ","ч","«ч» с лёгким выдохом"],["ც","ц","«ц» с лёгким выдохом"]]},
+ {id:"a6",unit:0,type:"letters",title:"Гортанные",letters:[["ჯ","дж","как «дж» в «джем»"],["ყ","къ","глубокое «к» из горла"],["ღ","гъ","картавое «г», похоже на французское r"],["წ","ц’","резкое «ц», без выдоха"],["ძ","дз","слитное «дз»"]]},
+ {id:"a7",unit:0,type:"letters",title:"Последние буквы",letters:[["ჭ","ч’","резкое «ч», без выдоха"],["ჟ","ж","как «ж»"],["ჰ","һ","лёгкий выдох, как английское h"]]},
+ {id:"p1",unit:1,type:"phrases",title:"Приветствия",glyph:"გ",items:[
+   ["გამარჯობა","гамарджоба","Здравствуйте"],["გაგიმარჯოს","гагимарджос","Здравствуйте (в ответ)"],
+   ["დილა მშვიდობისა","дила мшвидобиса","Доброе утро"],["როგორ ხარ?","рогор хар?","Как дела? (на «ты»)"],
+   ["როგორ ბრძანდებით?","рогор брдзандебит?","Как вы? (вежливо)"],["კარგად","каргад","Хорошо"],["ნახვამდის","нахвамдис","До свидания"]]},
+ {id:"p2",unit:1,type:"phrases",title:"Вежливость",glyph:"მ",items:[
+   ["დიახ","диах","Да (вежливо)"],["კი","ки","Да"],["არა","ара","Нет"],["მადლობა","мадлоба","Спасибо"],
+   ["დიდი მადლობა","диди мадлоба","Большое спасибо"],["არაფრის","араприс","Не за что"],["ბოდიში","бодиши","Извините"],["გთხოვთ","гтховт","Пожалуйста (прошу вас)"]]},
+ {id:"p3",unit:1,type:"phrases",title:"Цифры 1–10",glyph:"1",items:[
+   ["ერთი","эрти","1 — один"],["ორი","ори","2 — два"],["სამი","сами","3 — три"],["ოთხი","отхи","4 — четыре"],["ხუთი","хути","5 — пять"],
+   ["ექვსი","эквси","6 — шесть"],["შვიდი","швиди","7 — семь"],["რვა","рва","8 — восемь"],["ცხრა","цхра","9 — девять"],["ათი","ати","10 — десять"]]},
+ {id:"p4",unit:1,type:"phrases",title:"На рынке",glyph:"ბ",items:[
+   ["რა ღირს?","ра гирс?","Сколько стоит?"],["ეს","эс","Это"],["მინდა","минда","Я хочу"],["ერთი კილო","эрти кило","Один килограмм"],
+   ["ძალიან ძვირია","дзалиан дзвириа","Очень дорого"],["ლარი","лари","Лари (валюта)"],["პური","пури","Хлеб"],["ყველი","квели","Сыр"],["ხილი","хили","Фрукты"]]},
+ {id:"p5",unit:1,type:"phrases",title:"О себе и работе",glyph:"ს",items:[
+   ["მე მქვია მარია","ме мквиа мариа","Меня зовут Мария"],["ვსწავლობ ქართულს","всцавлоб картулс","Я учу грузинский"],
+   ["ცოტა ქართული ვიცი","цота картули вици","Я немного знаю грузинский"],["არ მესმის","ар месмис","Я не понимаю"],
+   ["გაიმეორეთ, გთხოვთ","гаимеорет, гтховт","Повторите, пожалуйста"],["სად მუშაობთ?","сад мушаобт?","Где вы работаете?"],
+   ["ვეძებ სამსახურს","ведзеб самсахурс","Я ищу работу"]]},
+ {id:"b1",unit:2,type:"verbs",title:"Я есть",glyph:"ვ",rule:"be",
+  verbs:[V("be","быть",["ვარ","вар","я есть"],["ხარ","хар","ты есть"],["არის","арис","он(а) есть"])],
+  items:[["მე ვარ მარია","ме вар мариа","Я — Мария"],["ბათუმში ვარ","батумши вар","Я в Батуми"],["სახლში ვარ","сахлши вар","Я дома"],
+   ["სად ხარ?","сад хар?","Где ты?"],["ის აქ არის","ис ак арис","Он(а) здесь"]]},
+ {id:"b2",unit:2,type:"verbs",title:"Кто где",glyph:"ხ",verbs:[],
+  items:[["შენ ბათუმში ხარ?","шен батумши хар?","Ты в Батуми?"],["სამსახურში ვარ","самсахурши вар","Я на работе"],
+   ["დედა სახლში არის","деда сахлши арис","Мама дома"],["ბაზარში ვარ","базарши вар","Я на рынке"],
+   ["კარგად ვარ","каргад вар","У меня всё хорошо"],["ის ჩემი მეგობარი არის","ис чеми мегобари арис","Он(а) мой друг"]]},
+ {id:"f1",unit:3,type:"verbs",title:"Хочу, имею, люблю",glyph:"მ",rule:"feel",
+  verbs:[V("feel","хотеть",["მინდა","минда","я хочу"],["გინდა","гинда","ты хочешь"],["უნდა","унда","он(а) хочет"]),
+   V("feel","иметь",["მაქვს","маквс","у меня есть"],["გაქვს","гаквс","у тебя есть"],["აქვს","аквс","у него / неё есть"]),
+   V("feel","любить",["მიყვარს","микварс","я люблю"],["გიყვარს","гикварс","ты любишь"],["უყვარს","укварс","он(а) любит"])],
+  items:[["ყავა მინდა","кава минда","Я хочу кофе"],["ჩაი გინდა?","чаи гинда?","Хочешь чаю?"],["დრო არ მაქვს","дро ар маквс","У меня нет времени"],
+   ["ბათუმი მიყვარს","батуми микварс","Я люблю Батуми"],["ზღვა გიყვარს?","згва гикварс?","Ты любишь море?"]]},
+ {id:"f2",unit:3,type:"verbs",title:"Голодна, холодно",glyph:"გ",
+  verbs:[V("feel","быть голодным",["მშია","мшиа","я голодна"],["გშია","гшиа","ты голоден"],["შია","шиа","он(а) голоден"]),
+   V("feel","хотеть пить",["მწყურია","мцкуриа","мне хочется пить"],["გწყურია","гцкуриа","тебе хочется пить"],["სწყურია","сцкуриа","ему / ей хочется пить"]),
+   V("feel","мёрзнуть",["მცივა","мцива","мне холодно"],["გცივა","гцива","тебе холодно"],["სცივა","сцива","ему / ей холодно"]),
+   V("feel","жарко",["მცხელა","мцхела","мне жарко"],["გცხელა","гцхела","тебе жарко"],["სცხელა","сцхела","ему / ей жарко"])],
+  items:[["ძალიან მშია","дзалиан мшиа","Я очень голодна"],["გშია?","гшиа?","Ты голоден?"],["აქ მცივა","ак мцива","Мне здесь холодно"],
+   ["დღეს მცხელა","дгес мцхела","Мне сегодня жарко"],["გცივა?","гцива?","Тебе холодно?"]]},
+ {id:"f3",unit:3,type:"verbs",title:"Нравится",glyph:"ო",
+  verbs:[V("feel","нравиться",["მომწონს","момцонс","мне нравится"],["მოგწონს","могцонс","тебе нравится"],["მოსწონს","мосцонс","ему / ей нравится"])],
+  items:[["ეს მომწონს","эс момцонс","Мне это нравится"],["ბათუმი მოგწონს?","батуми могцонс?","Тебе нравится Батуми?"],
+   ["ქართული მომწონს","картули момцонс","Мне нравится грузинский"],["ეს არ მომწონს","эс ар момцонс","Мне это не нравится"]]},
+ {id:"d1",unit:4,type:"verbs",title:"Работа и учёба",glyph:"ვ",rule:"act",
+  verbs:[V("act","работать",["ვმუშაობ","вмушаоб","я работаю"],["მუშაობ","мушаоб","ты работаешь"],["მუშაობს","мушаобс","он(а) работает"]),
+   V("act","учить",["ვსწავლობ","всцавлоб","я учу"],["სწავლობ","сцавлоб","ты учишь"],["სწავლობს","сцавлобс","он(а) учит"]),
+   V("act","жить",["ვცხოვრობ","вцховроб","я живу"],["ცხოვრობ","цховроб","ты живёшь"],["ცხოვრობს","цховробс","он(а) живёт"]),
+   V("act","говорить",["ვლაპარაკობ","влапаракоб","я говорю"],["ლაპარაკობ","лапаракоб","ты говоришь"],["ლაპარაკობს","лапаракобс","он(а) говорит"])],
+  items:[["ბათუმში ვცხოვრობ","батумши вцховроб","Я живу в Батуми"],["ქართულს ვსწავლობ","картулс всцавлоб","Я учу грузинский"],
+   ["სად მუშაობ?","сад мушаоб?","Где ты работаешь?"],["ის სახლში მუშაობს","ис сахлши мушаобс","Он(а) работает дома"],
+   ["ქართულად ვლაპარაკობ","картулад влапаракоб","Я говорю по-грузински"]]},
+ {id:"d2",unit:4,type:"verbs",title:"Дом и быт",glyph:"ს",
+  verbs:[V("act","готовить",["ვამზადებ","вамзадеб","я готовлю"],["ამზადებ","амзадеб","ты готовишь"],["ამზადებს","амзадебс","он(а) готовит"]),
+   V("act","мыть",["ვრეცხავ","врецхав","я мою"],["რეცხავ","рецхав","ты моешь"],["რეცხავს","рецхавс","он(а) моет"]),
+   V("act","покупать",["ვყიდულობ","вкидулоб","я покупаю"],["ყიდულობ","кидулоб","ты покупаешь"],["ყიდულობს","кидулобс","он(а) покупает"]),
+   V("act","делать",["ვაკეთებ","вакетеб","я делаю"],["აკეთებ","акетеб","ты делаешь"],["აკეთებს","акетебс","он(а) делает"])],
+  items:[["რას აკეთებ?","рас акетеб?","Что ты делаешь?"],["სადილს ვამზადებ","садилс вамзадеб","Я готовлю обед"],
+   ["ჭურჭელს ვრეცხავ","чурчелс врецхав","Я мою посуду"],["პურს ვყიდულობ","пурс вкидулоб","Я покупаю хлеб"],
+   ["ის ხილს ყიდულობს","ис хилс кидулобс","Он(а) покупает фрукты"]]},
+ {id:"d3",unit:4,type:"verbs",title:"Еда и отдых",glyph:"ჭ",
+  verbs:[V("act","есть",["ვჭამ","вчам","я ем"],["ჭამ","чам","ты ешь"],["ჭამს","чамс","он(а) ест"]),
+   V("act","пить",["ვსვამ","всвам","я пью"],["სვამ","свам","ты пьёшь"],["სვამს","свамс","он(а) пьёт"]),
+   V("act","читать",["ვკითხულობ","вкитхулоб","я читаю"],["კითხულობ","китхулоб","ты читаешь"],["კითხულობს","китхулобс","он(а) читает"]),
+   V("act","смотреть",["ვუყურებ","вукуреб","я смотрю"],["უყურებ","укуреб","ты смотришь"],["უყურებს","укуребс","он(а) смотрит"]),
+   V("act","писать",["ვწერ","вцер","я пишу"],["წერ","цер","ты пишешь"],["წერს","церс","он(а) пишет"])],
+  items:[["ყავას ვსვამ","кавас всвам","Я пью кофе"],["ხაჭაპურს ვჭამ","хачапурс вчам","Я ем хачапури"],
+   ["წიგნს ვკითხულობ","цигнс вкитхулоб","Я читаю книгу"],["ფილმს ვუყურებ","пилмс вукуреб","Я смотрю фильм"],["წერილს წერ?","церилс цер?","Ты пишешь письмо?"]]},
+ {id:"m1",unit:5,type:"verbs",title:"Туда и сюда",glyph:"მ",rule:"move",
+  verbs:[V("move","идти (туда)",["მივდივარ","мивдивар","я иду туда"],["მიდიხარ","мидихар","ты идёшь туда"],["მიდის","мидис","он(а) идёт туда"]),
+   V("move","идти (сюда)",["მოვდივარ","мовдивар","я иду сюда"],["მოდიხარ","модихар","ты идёшь сюда"],["მოდის","модис","он(а) идёт сюда"])],
+  items:[["სამსახურში მივდივარ","самсахурши мивдивар","Я иду на работу"],["სად მიდიხარ?","сад мидихар?","Куда ты идёшь?"],
+   ["ბაზარში მივდივარ","базарши мивдивар","Я иду на рынок"],["ის ზღვაზე მიდის","ис згвазе мидис","Он(а) идёт на море"],["აქ მოდიხარ?","ак модихар?","Ты идёшь сюда?"]]},
+ {id:"m2",unit:5,type:"verbs",title:"Вверх и вниз",glyph:"ა",rule:"dir",
+  verbs:[V("move","подниматься",["ავდივარ","авдивар","я поднимаюсь"],["ადიხარ","адихар","ты поднимаешься"],["ადის","адис","он(а) поднимается"]),
+   V("move","спускаться",["ჩავდივარ","чавдивар","я спускаюсь"],["ჩადიხარ","чадихар","ты спускаешься"],["ჩადის","чадис","он(а) спускается"])],
+  items:[["კიბეზე ავდივარ","кибезе авдивар","Я поднимаюсь по лестнице"],["კიბეზე ჩავდივარ","кибезе чавдивар","Я спускаюсь по лестнице"],
+   ["მეოთხე სართულზე ავდივარ","меотхе сартулзе авдивар","Я поднимаюсь на четвёртый этаж"],["ქვემოთ ჩადიხარ?","квемот чадихар?","Ты спускаешься вниз?"]]},
+ {id:"m3",unit:5,type:"verbs",title:"Вход, выход, переход",glyph:"შ",
+  verbs:[V("move","входить",["შევდივარ","шевдивар","я вхожу"],["შედიხარ","шедихар","ты входишь"],["შედის","шедис","он(а) входит"]),
+   V("move","выходить",["გავდივარ","гавдивар","я выхожу"],["გადიხარ","гадихар","ты выходишь"],["გადის","гадис","он(а) выходит"]),
+   V("move","переходить",["გადავდივარ","гадавдивар","я перехожу"],["გადადიხარ","гададихар","ты переходишь"],["გადადის","гададис","он(а) переходит"])],
+  items:[["სახლიდან გავდივარ","сахлидан гавдивар","Я выхожу из дома"],["გზაზე გადავდივარ","гзазе гадавдивар","Я перехожу дорогу"],
+   ["კაფეში შევდივარ","капеши шевдивар","Я вхожу в кафе"],["ის მაღაზიაში შედის","ис магазиаши шедис","Он(а) входит в магазин"]]},
+ {id:"m4",unit:5,type:"verbs",title:"Маршрут до кофейни",glyph:"☕",verbs:[],
+  items:[["კიბეზე ჩავდივარ","кибезе чавдивар","Спускаюсь по лестнице"],["სახლიდან გავდივარ","сахлидан гавдивар","Выхожу из дома"],
+   ["პირდაპირ მივდივარ","пирдапир мивдивар","Иду прямо"],["მარცხნივ მივდივარ","марцхнив мивдивар","Иду налево"],
+   ["მარჯვნივ მივდივარ","марджвнив мивдивар","Иду направо"],["გზაზე გადავდივარ","гзазе гадавдивар","Перехожу дорогу"],["კაფეში შევდივარ","капеши шевдивар","Вхожу в кафе"]]},
+ {id:"x1",unit:6,type:"verbs",title:"Угадай группу",glyph:"?",rule:"all",mix:true,verbs:[],items:[]},
+ {id:"x2",unit:6,type:"verbs",title:"Мой день",glyph:"☀",verbs:[],
+  items:[["დილით ყავას ვსვამ","дилит кавас всвам","Утром я пью кофе"],["სამსახურში მივდივარ","самсахурши мивдивар","Я иду на работу"],
+   ["ძალიან მშია","дзалиан мшиа","Я очень голодна"],["საღამოს ვახშამს ვამზადებ","сагамос вахшамс вамзадеб","Вечером я готовлю ужин"],
+   ["დღეს სახლში ვარ","дгес сахлши вар","Сегодня я дома"],["ქართული მიყვარს","картули микварс","Я люблю грузинский"]]}
+];
+const UNITS = [
+ {title:"Алфавит",sub:"33 буквы мхедрули: читаем вывески Батуми"},
+ {title:"Первые фразы",sub:"Разговор, рынок, работа"},
+ {title:"Глагол «быть»",sub:"Я есть в Батуми: ვარ / ხარ / არის"},
+ {title:"Чувства и состояния",sub:"Я на м-, ты на г-: хочу, имею, люблю, голодна"},
+ {title:"Глаголы действия",sub:"Я на в-, он на -ს: работа, быт, еда"},
+ {title:"Передвижение",sub:"Один глагол и приставки направления"},
+ {title:"Все группы вместе",sub:"Определяем группу и говорим о своём дне"}
+];
+const WORDS = [
+ ["მამა","мама","папа"],["დედა","деда","мама"],["და","да","сестра"],["დილა","дила","утро"],["მინდა","минда","хочу"],
+ ["ენა","эна","язык"],["ლარი","лари","лари"],["სადილი","садили","обед"],["არა","ара","нет"],["რა","ра","что"],["სად","сад","где"],
+ ["სამი","сами","три"],["ორი","ори","два"],["მადლობა","мадлоба","спасибо"],["ლამაზი","ламази","красивый"],["ერთი","эрти","один"],
+ ["ბაზარი","базари","рынок"],["თვალი","твали","глаз"],["პური","пури","хлеб"],["ქალი","кали","женщина"],["ხელი","хели","рука"],
+ ["ხილი","хили","фрукты"],["სახლი","сахли","дом"],["ოთახი","отахи","комната"],["კარგი","карги","хороший"],["კი","ки","да"],
+ ["კაცი","каци","мужчина"],["ფული","пули","деньги"],["ჩაი","чаи","чай"],["ტელეფონი","телепони","телефон"],["ბოდიში","бодиши","извините"],
+ ["მუშაობა","мушаоба","работа (процесс)"],["სამსახური","самсахури","работа (место)"],["ცა","ца","небо"],["ბათუმი","батуми","Батуми"],
+ ["მეგობარი","мегобари","друг"],["ბავშვი","бавшви","ребёнок"],["ნახვამდის","нахвамдис","до свидания"],["გამარჯობა","гамарджоба","здравствуйте"],
+ ["წყალი","цкали","вода"],["ყავა","кава","кофе"],["ღვინო","гвино","вино"],["ზღვა","згва","море"],["ყველი","квели","сыр"],
+ ["ძმა","дзма","брат"],["ძალიან","дзалиан","очень"],["ფანჯარა","панджара","окно"],["ჭამა","чама","еда"],["ჟურნალი","журнали","журнал"],["ჰაერი","хаери","воздух"]
+].map(([ka,tr,ru])=>({ka,tr,ru}));
+const ALL_LETTERS = LESSONS.filter(l=>l.type==="letters").flatMap(l=>l.letters.map(([ch,snd,note])=>({ch,snd,note,lesson:l.id})));
+const ALL_VERBS = LESSONS.flatMap(l=>(l.verbs||[]).map(v=>Object.assign({lesson:l.id},v)));
+const ALL_PHRASES = LESSONS.filter(l=>l.items&&l.items.length).flatMap(l=>l.items.map(([ka,tr,ru])=>({ka,tr,ru,lesson:l.id})));
+
+/* ---------- State ---------- */
+const KEY="ka-daily-v1";
+const GOALS={10:"Легко",20:"Нормально",30:"Серьёзно"};
+function defaultCustom(){return [
+  {id:"c1",text:"Прочитать вслух 5 вывесок на улице",done:false},
+  {id:"c2",text:"Сказать продавцу «მადლობა»",done:false}];}
+function normalize(s){
+  s=(s&&typeof s==="object")?s:{};
+  return {v:1,xp:+s.xp||0,goal:[10,20,30].includes(s.goal)?s.goal:20,
+    daily:Object.assign({},s.daily||{}),met:Object.assign({},s.met||{}),done:Object.assign({},s.done||{}),
+    custom:Array.isArray(s.custom)?s.custom.map(c=>Object.assign({},c)):defaultCustom(),updatedAt:+s.updatedAt||0};
+}
+let state;
+try{state=normalize(JSON.parse(localStorage.getItem(KEY)))}catch(e){state=normalize(null)}
+
+let DB=null,UID=null,pushTimer=null;
+function save(){
+  state.updatedAt=Date.now();
+  try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
+  if(DB&&UID){clearTimeout(pushTimer);pushTimer=setTimeout(pushRemote,1200)}
+}
+function pushRemote(){
+  if(!DB||!UID)return;
+  try{DB.doc("data/users/"+UID+"/progress").set(JSON.parse(JSON.stringify(state))).catch(()=>{})}catch(e){}
+}
+(async function sync(){
+  try{
+    if(!window.claude||!window.claude.use)return;
+    const [db,user]=await Promise.all([window.claude.use("db"),window.claude.use("user")]);
+    if(!db||!user)return;
+    const id=await user.id(); if(!id)return;
+    DB=db;UID=id;
+    const snap=await db.doc("data/users/"+id+"/progress").get();
+    if(snap&&snap.exists){
+      const remote=JSON.parse(JSON.stringify(snap.data()));
+      if((+remote.updatedAt||0)>(state.updatedAt||0)){
+        state=normalize(remote);
+        try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
+        if(ui.screen==="home")render();
+      }else if(state.updatedAt>(+remote.updatedAt||0))pushRemote();
+    }else if(state.updatedAt)pushRemote();
+  }catch(e){}
+})();
+
+/* ---------- Helpers ---------- */
+const pad=n=>String(n).padStart(2,"0");
+const dk=d=>"d"+d.getFullYear()+pad(d.getMonth()+1)+pad(d.getDate());
+const addDays=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const uniq=a=>[...new Set(a)];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function opts(ans,pool){return shuffle([ans,...shuffle(uniq(pool).filter(x=>x!==ans)).slice(0,3)])}
+const todayXP=()=>state.daily[dk(new Date())]||0;
+function streak(){
+  let d=new Date(),n=0;
+  if(!state.met[dk(d)])d=addDays(d,-1);
+  while(state.met[dk(d)]){n++;d=addDays(d,-1)}
+  return n;
+}
+const unlocked=i=>i===0||!!state.done[LESSONS[i-1].id];
+function knownLetters(ids){return new Set(ALL_LETTERS.filter(l=>ids.includes(l.lesson)).map(l=>l.ch))}
+const lettersOf=s=>Array.from(s).filter(c=>c>="\u10D0"&&c<="\u10FF");
+const readable=(w,known)=>lettersOf(w.ka).every(c=>known.has(c));
+function doneIds(){return LESSONS.filter(l=>state.done[l.id]).map(l=>l.id)}
+function learnedWordCount(){
+  const k=knownLetters(doneIds());
+  const ws=new Set(WORDS.filter(w=>readable(w,k)).map(w=>w.ka));
+  ALL_PHRASES.filter(p=>state.done[p.lesson]).forEach(p=>ws.add(p.ka));
+  return ws.size;
+}
+
+/* ---------- Exercise builders ---------- */
+function qL2S(l,pool){return {t:"choice",prompt:"Как читается эта буква?",hero:l.ch,heroBig:true,opts:opts(l.snd,pool.map(x=>x.snd)),ans:l.snd,sol:l.ch+" — «"+l.snd+"», "+l.note}}
+function qS2L(l,pool){return {t:"choice",prompt:"Найдите букву «"+l.snd+"»",sub:l.note,opts:opts(l.ch,pool.map(x=>x.ch)),optsKa:true,ans:l.ch,sol:l.ch+" — «"+l.snd+"»"}}
+function qW2M(w){return {t:"choice",prompt:"Прочитайте слово. Что оно значит?",hero:w.ka,opts:opts(w.ru,WORDS.map(x=>x.ru)),ans:w.ru,sol:w.ka+" ["+w.tr+"] — "+w.ru}}
+function qW2T(w,pool){return {t:"choice",prompt:"Как читается это слово?",hero:w.ka,opts:opts(w.tr,(pool.length>=4?pool:WORDS).map(x=>x.tr)),ans:w.tr,sol:w.ka+" ["+w.tr+"] — "+w.ru}}
+function qBuildWord(w,known){
+  const ls=lettersOf(w.ka);
+  const extra=shuffle([...known].filter(c=>!ls.includes(c))).slice(0,2);
+  return {t:"build",prompt:"Соберите слово «"+w.ru+"»",heroRu:"["+w.tr+"]",tiles:shuffle(ls.concat(extra)),target:ls,sep:"",sol:w.ka+" ["+w.tr+"]"};
+}
+function qP2M(p,pool){return {t:"choice",prompt:"Что это значит?",hero:p.ka,opts:opts(p.ru,pool.map(x=>x.ru)),ans:p.ru,one:true,sol:p.ka+" ["+p.tr+"] — "+p.ru}}
+function qM2P(p,pool){return {t:"choice",prompt:"Как сказать по-грузински?",heroRu:p.ru,opts:opts(p.ka,pool.map(x=>x.ka)),optsKa:true,one:true,ans:p.ka,sol:p.ka+" ["+p.tr+"]"}}
+function qBuildPhrase(p,pool){
+  const words=p.ka.split(" ");
+  if(words.length<2){
+    const ls=lettersOf(p.ka); if(ls.length>7)return null;
+    const extra=shuffle(ALL_LETTERS.map(l=>l.ch).filter(c=>!ls.includes(c))).slice(0,2);
+    return {t:"build",prompt:"Соберите: «"+p.ru+"»",heroRu:"["+p.tr+"]",tiles:shuffle(ls.concat(extra)),target:ls,sep:"",sol:p.ka+" ["+p.tr+"]"};
+  }
+  const extra=shuffle(uniq(pool.flatMap(x=>x.ka.split(" "))).filter(w=>!words.includes(w))).slice(0,2);
+  return {t:"build",prompt:"Переведите на грузинский",heroRu:p.ru,tiles:shuffle(words.concat(extra)),target:words,sep:" ",sol:p.ka+" ["+p.tr+"]"};
+}
+
+const rnd3=()=>Math.floor(Math.random()*3);
+const PERSONS=["я","ты","он / она"];
+function qForm(v,p,pool){
+  const other=shuffle(pool.filter(x=>x.g===v.g&&x.ru!==v.ru))[0];
+  const o=uniq(v.forms.map(f=>f[0]).concat(other?[other.forms[p][0]]:[]));
+  return {t:"choice",prompt:"Как сказать «"+v.forms[p][2]+"»?",opts:shuffle(o),optsKa:true,ans:v.forms[p][0],
+    sol:v.forms.map(f=>f[0]).join(" / ")+" — "+v.ru};
+}
+function qWho(v,p){return {t:"choice",prompt:"О ком речь?",hero:v.forms[p][0],opts:PERSONS.slice(),ans:PERSONS[p],
+  sol:v.forms[p][0]+" ["+v.forms[p][1]+"] — "+v.forms[p][2]}}
+function qGroup(v,pool){
+  const gs=uniq(pool.map(x=>x.g)); if(gs.length<2)return null;
+  return {t:"choice",prompt:"К какой группе относится глагол?",hero:v.forms[0][0],sub2:"["+v.forms[0][1]+"] — "+v.forms[0][2],
+    opts:shuffle(gs.map(g=>GROUPS[g])),one:true,ans:GROUPS[v.g],sol:v.forms[0][0]+": "+GROUP_WHY[v.g]};
+}
+function buildLesson(lesson){
+  const idx=LESSONS.indexOf(lesson);
+  let cards=[],qs=[];
+  if(lesson.type==="letters"){
+    const fresh=lesson.letters.map(([ch,snd,note])=>({ch,snd,note}));
+    const ids=LESSONS.slice(0,idx+1).map(l=>l.id);
+    const known=knownLetters(ids);
+    const pool=ALL_LETTERS.filter(l=>known.has(l.ch));
+    const lpool=pool.length>=4?pool:ALL_LETTERS;
+    cards=fresh.map(l=>({t:"card",kind:"letter",l}));
+    fresh.forEach(l=>{qs.push(qL2S(l,lpool));qs.push(qS2L(l,lpool))});
+    const freshSet=new Set(fresh.map(l=>l.ch));
+    const words=WORDS.filter(w=>readable(w,known));
+    const pref=shuffle(words.filter(w=>lettersOf(w.ka).some(c=>freshSet.has(c))));
+    const pick=pref.length>=3?pref:uniq(pref.concat(shuffle(words)));
+    pick.slice(0,3).forEach(w=>qs.push(qW2M(w)));
+    pick.slice(3,5).forEach(w=>qs.push(qW2T(w,words)));
+    pick.filter(w=>lettersOf(w.ka).length<=6&&lettersOf(w.ka).length>=2).slice(0,2).forEach(w=>qs.push(qBuildWord(w,known)));
+    qs=shuffle(qs).slice(0,13);
+  }else if(lesson.type==="verbs"){
+    const learned=ALL_VERBS.filter(v=>LESSONS.findIndex(l=>l.id===v.lesson)<=idx);
+    const items=(lesson.items||[]).map(([ka,tr,ru])=>({ka,tr,ru}));
+    if(lesson.rule)cards.push({t:"card",kind:"rule",r:RULES[lesson.rule]});
+    lesson.verbs.forEach(v=>cards.push({t:"card",kind:"verb",v}));
+    items.forEach(p=>cards.push({t:"card",kind:"phrase",p}));
+    let vq=[];
+    if(lesson.mix){
+      shuffle(learned).slice(0,8).forEach(v=>{const g=qGroup(v,learned);if(g)vq.push(g)});
+      shuffle(learned).slice(0,4).forEach(v=>vq.push(qForm(v,rnd3(),learned)));
+      shuffle(learned).slice(0,2).forEach(v=>vq.push(qWho(v,rnd3())));
+    }else lesson.verbs.forEach(v=>{vq.push(qForm(v,0,learned));vq.push(qForm(v,1+Math.floor(Math.random()*2),learned));vq.push(qWho(v,rnd3()))});
+    const pool=items.length>=4?items:ALL_PHRASES;
+    const wide=pool.concat(ALL_PHRASES);
+    let pq=[];
+    items.forEach(p=>{pq.push(qP2M(p,pool));pq.push(qM2P(p,pool));const b=qBuildPhrase(p,wide);if(b)pq.push(b)});
+    pq=shuffle(pq).slice(0,Math.max(5,15-vq.length));
+    qs=shuffle(vq.concat(pq));
+  }else{
+    const items=lesson.items.map(([ka,tr,ru])=>({ka,tr,ru}));
+    cards=items.map(p=>({t:"card",kind:"phrase",p}));
+    const pool=items.length>=4?items:ALL_PHRASES;
+    const wide=pool.concat(ALL_PHRASES);
+    items.forEach(p=>{qs.push(qP2M(p,pool));qs.push(qM2P(p,pool))});
+    shuffle(items).forEach(p=>{const b=qBuildPhrase(p,wide);if(b)qs.push(b)});
+    qs=shuffle(qs).slice(0,14);
+  }
+  return cards.concat(qs);
+}
+function buildReview(){
+  const ids=doneIds();
+  const known=knownLetters(ids);
+  const letters=ALL_LETTERS.filter(l=>known.has(l.ch));
+  const words=WORDS.filter(w=>readable(w,known));
+  const phrases=ALL_PHRASES.filter(p=>state.done[p.lesson]);
+  let qs=[];
+  shuffle(letters).slice(0,4).forEach((l,i)=>qs.push(i%2?qS2L(l,letters.length>=4?letters:ALL_LETTERS):qL2S(l,letters.length>=4?letters:ALL_LETTERS)));
+  shuffle(words).slice(0,3).forEach((w,i)=>qs.push(i%2?qW2T(w,words):qW2M(w)));
+  shuffle(phrases).slice(0,4).forEach((p,i)=>qs.push(i%2?qM2P(p,ALL_PHRASES):qP2M(p,ALL_PHRASES)));
+  const w=shuffle(words.filter(w=>lettersOf(w.ka).length<=6))[0]; if(w)qs.push(qBuildWord(w,known));
+  const verbs=ALL_VERBS.filter(v=>state.done[v.lesson]);
+  shuffle(verbs).slice(0,3).forEach(v=>qs.push(qForm(v,rnd3(),verbs)));
+  const gv=shuffle(verbs)[0]; if(gv){const g=qGroup(gv,verbs);if(g)qs.push(g)}
+  return shuffle(qs).slice(0,12);
+}
+
+/* ---------- UI state ---------- */
+let ui={screen:"home",tab:"learn"};
+let L=null;
+const app=document.getElementById("app");
+
+function startLesson(id){
+  const lesson=id==="review"?null:LESSONS.find(l=>l.id===id);
+  const queue=lesson?buildLesson(lesson):buildReview();
+  if(!queue.length)return;
+  L={lesson,review:!lesson,queue,i:0,done:0,mistakes:0,sel:null,picked:[],phase:"answer",ok:false};
+  ui.screen="lesson";render();window.scrollTo(0,0);
+}
+function finishLesson(){
+  const before=todayXP();
+  let gain=L.review?10:(10+(L.mistakes===0?5:0));
+  state.xp+=gain;
+  const k=dk(new Date());
+  state.daily[k]=before+gain;
+  let justMet=false;
+  if(!state.met[k]&&state.daily[k]>=state.goal){state.met[k]=true;justMet=true}
+  if(L.lesson)state.done[L.lesson.id]=true;
+  save();
+  L.result={gain,justMet,perfect:L.mistakes===0,firstTime:L.lesson&&!L.wasDone};
+  ui.screen="end";render();window.scrollTo(0,0);
+}
+
+/* ---------- Render ---------- */
+function render(){
+  if(ui.screen==="lesson")return renderLesson();
+  if(ui.screen==="end")return renderEnd();
+  renderHome();
+}
+function ring(v,max){
+  const r=32,c=2*Math.PI*r,p=Math.min(1,v/max);
+  return `<div class="ring"><svg width="76" height="76" viewBox="0 0 76 76" aria-hidden="true">
+  <circle cx="38" cy="38" r="${r}" fill="none" stroke="var(--line)" stroke-width="8"/>
+  <circle cx="38" cy="38" r="${r}" fill="none" stroke="${p>=1?"var(--gold)":"var(--grape)"}" stroke-width="8" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-p)}"/>
+  </svg><b>${p>=1?"✓":Math.min(v,max)+"/"+max}</b></div>`;
+}
+function weekStrip(){
+  const names=["Вс","Пн","Вт","Ср","Чт","Пт","Сб"];let h="";
+  for(let i=6;i>=0;i--){
+    const d=addDays(new Date(),-i),k=dk(d);
+    const cls=state.met[k]?"met":(state.daily[k]?"tried":"");
+    h+=`<div class="day${i===0?" is-today":""}"><div class="dot ${cls}">${state.met[k]?"✓":""}</div>${i===0?"Сегодня":names[d.getDay()]}</div>`;
+  }
+  return `<div class="week" aria-label="Последние 7 дней">${h}</div>`;
+}
+function header(){
+  return `<header class="top"><div class="wrap"><div class="brand ka">ქართული</div>
+  <div class="stats"><span class="stat fire" title="Дней подряд">🔥 ${streak()}</span><span class="stat xp" title="Всего очков">✦ ${state.xp}</span></div></div></header>`;
+}
+function renderHome(){
+  let body="";
+  if(ui.tab==="learn")body=learnTab();
+  else if(ui.tab==="goals")body=goalsTab();
+  else body=abcTab();
+  app.innerHTML=header()+`<main><div class="wrap">${body}</div></main>
+  <nav class="nav"><div class="wrap">
+   <button data-act="tab" data-tab="learn" ${ui.tab==="learn"?'aria-current="page"':""}><span class="ic">🍇</span>Учёба</button>
+   <button data-act="tab" data-tab="goals" ${ui.tab==="goals"?'aria-current="page"':""}><span class="ic">🎯</span>Цели</button>
+   <button data-act="tab" data-tab="abc" ${ui.tab==="abc"?'aria-current="page"':""}><span class="ic ka">ა</span>Алфавит</button>
+  </div></nav>`;
+}
+function learnTab(){
+  const t=todayXP(),met=!!state.met[dk(new Date())];
+  let h=`<section class="today">${ring(t,state.goal)}<div><h2>${met?"Цель дня выполнена":"Цель дня: "+state.goal+" ✦"}</h2>
+   <p>${met?"День засчитан. Можно повторить ещё, если хочется.":"Один урок — это 10–15 ✦. Осталось "+Math.max(0,state.goal-t)+" ✦."}</p></div>${weekStrip()}</section>`;
+  if(doneIds().length)h+=`<button class="review" data-act="start" data-id="review"><span>Повторение пройденного</span><span>+10 ✦</span></button>`;
+  const offs=[0,44,64,44,0,-44,-64,-44];
+  let firstOpen=LESSONS.findIndex((l,i)=>unlocked(i)&&!state.done[l.id]);
+  UNITS.forEach((u,ui_)=>{
+    h+=`<div class="unit u${ui_%2}"><h3>${u.title}</h3><p>${u.sub}</p></div><div class="path">`;
+    LESSONS.filter(l=>l.unit===ui_).forEach((l,j)=>{
+      const i=LESSONS.indexOf(l),open=unlocked(i),done=!!state.done[l.id],cur=i===firstOpen;
+      const cls=done?(cur?"current":"done"):(open?"current":"locked");
+      const glyph=l.glyph||l.letters[0][0];
+      h+=`<div class="node g${ui_%2} ${cls}" style="transform:translateX(${offs[j%8]}px)">
+        <button data-act="start" data-id="${l.id}" ${open?"":"disabled"} aria-label="${esc(l.title)}${done?", пройдено":open?"":", закрыто"}">
+        ${cur?'<span class="startTag">Начать</span>':""}
+        <span class="disc ${/[\u10D0-\u10FF]/.test(glyph)?"ka":""}">${open?esc(glyph):"🔒"}</span>
+        ${done?'<span class="check">✓</span>':""}</button>
+        <span class="lbl">${esc(l.title)}</span></div>`;
+    });
+    h+=`</div>`;
+  });
+  return h;
+}
+function goalBar(label,v,max){
+  const p=Math.min(1,v/max);
+  return `<div class="goal"><div class="row"><span>${label}</span><span>${Math.min(v,max)} / ${max}</span></div><div class="bar"><i class="${p>=1?"full":""}" style="width:${p*100}%"></i></div></div>`;
+}
+function goalsTab(){
+  const letters=knownLetters(doneIds()).size;
+  const phrasesDone=LESSONS.filter(l=>l.type==="phrases"&&state.done[l.id]).length;
+  const verbUnits=[2,3,4,5].filter(u=>LESSONS.filter(l=>l.unit===u).every(l=>state.done[l.id])).length;
+  let best=0,run=0;
+  for(let i=59;i>=0;i--){if(state.met[dk(addDays(new Date(),-i))]){run++;best=Math.max(best,run)}else run=0}
+  let h=`<section class="card"><h2>Сколько заниматься в день</h2><div class="seg">`;
+  [10,20,30].forEach(g=>h+=`<button data-act="goal" data-g="${g}" aria-pressed="${state.goal===g}"><b>${GOALS[g]}</b><small>${g} ✦ · ${g===10?"5 мин":g===20?"10 мин":"15 мин"}</small></button>`);
+  h+=`</div></section>`;
+  h+=`<section class="card"><h2>Маленькие цели</h2>
+   ${goalBar("Выучить алфавит",letters,33)}
+   ${goalBar("Заниматься 7 дней подряд",Math.max(streak(),best),7)}
+   ${goalBar("Знать 30 слов и фраз",learnedWordCount(),30)}
+   ${goalBar("Пройти все разделы фраз",phrasesDone,5)}
+   ${goalBar("Освоить 4 группы глаголов",verbUnits,4)}
+   ${goalBar("Набрать 300 ✦",state.xp,300)}</section>`;
+  h+=`<section class="card"><h2>Мои цели</h2><p class="hint">Задания из жизни: отметьте, когда получилось.</p><ul class="custom">`;
+  state.custom.forEach(c=>h+=`<li><button class="tick ${c.done?"on":""}" data-act="ctoggle" data-id="${esc(c.id)}" aria-label="Отметить">${c.done?"✓":""}</button>
+    <span class="txt ${c.done?"on":""}">${esc(c.text)}</span><button class="del" data-act="cdel" data-id="${esc(c.id)}" aria-label="Удалить">×</button></li>`);
+  h+=`</ul><form class="add" data-act="cadd" onsubmit="return false"><input id="cinput" maxlength="80" placeholder="Новая цель, например: заказать кофе по-грузински"><button type="submit" data-act="cadd">Добавить</button></form></section>`;
+  let cal="";
+  const start=addDays(new Date(),-27);
+  for(let i=0;i<28;i++){const d=addDays(start,i),k=dk(d);cal+=`<span class="${state.met[k]?"met":state.daily[k]?"tried":""}${i===27?" today":""}" title="${d.getDate()}.${pad(d.getMonth()+1)}"></span>`}
+  h+=`<section class="card"><h2>Последние 4 недели</h2><div class="cal">${cal}</div>
+   <div class="legend"><span><i style="background:var(--gold)"></i>Цель дня</span><span><i style="background:var(--gold-soft);border:2px solid var(--gold)"></i>Занималась</span></div></section>`;
+  return h;
+}
+function abcTab(){
+  const known=knownLetters(doneIds());
+  let h=`<section class="card"><h2>Алфавит мхедрули</h2><p class="hint">Выученные буквы подсвечены. Апостроф (т’, п’, к’) — резкий звук без выдоха.</p><div class="abc">`;
+  const order="აბგდევზთიკლმნოპჟრსტუფქღყშჩცძწჭხჯჰ";
+  Array.from(order).forEach(ch=>{const l=ALL_LETTERS.find(x=>x.ch===ch);const on=known.has(ch);
+    h+=`<div class="${on?"on":"off"}"><span class="ka">${ch}</span><small>${on?esc(l.snd):"?"}</small></div>`});
+  return h+`</div></section>`;
+}
+
+function renderLesson(){
+  const q=L.queue[L.i];
+  const prog=L.done/(L.done+L.queue.length-L.i)*100;
+  let body="",foot="";
+  if(q.t==="card"){
+    if(q.kind==="rule")body=ruleCard(q.r);
+    else if(q.kind==="verb")body=verbCard(q.v);
+    else if(q.kind==="letter")body=`<div class="intro"><span class="tag">Новая буква</span><div class="glyph ka">${q.l.ch}</div><div class="snd">«${esc(q.l.snd)}»</div><div class="note">${esc(q.l.note)}</div></div>`;
+    else body=`<div class="intro"><span class="tag">Новая фраза</span><div class="phr ka">${esc(q.p.ka)}</div><div class="snd">${esc(q.p.ru)}</div><div class="note">[${esc(q.p.tr)}]</div></div>`;
+    foot=`<div class="lfoot"><button class="btn grape" data-act="next">Дальше</button></div>`;
+  }else{
+    body=`<div class="prompt">${esc(q.prompt)}</div>`;
+    if(q.sub)body+=`<div class="hero"><div class="sub">${esc(q.sub)}</div></div>`;
+    if(q.hero)body+=`<div class="hero"><div class="ka ${q.heroBig?"big":""}">${esc(q.hero)}</div>${q.sub2?`<div class="sub">${esc(q.sub2)}</div>`:""}</div>`;
+    if(q.heroRu)body+=`<div class="hero"><div class="ru">${esc(q.heroRu)}</div></div>`;
+    const locked=L.phase==="feedback";
+    if(q.t==="choice"){
+      body+=`<div class="opts ${q.one?"one":""}">`+q.opts.map((o,i)=>`<button class="opt ${q.optsKa?"ka":""}" data-act="sel" data-i="${i}" aria-pressed="${L.sel===i}" ${locked?"disabled":""}>${esc(o)}</button>`).join("")+`</div>`;
+    }else{
+      body+=`<div class="slot">`+L.picked.map((ti,pi)=>`<button class="tile ka" data-act="unpick" data-p="${pi}" ${locked?"disabled":""}>${esc(q.tiles[ti])}</button>`).join("")+`</div>`;
+      body+=`<div class="pool">`+q.tiles.map((t,ti)=>`<button class="tile ka ${L.picked.includes(ti)?"used":""}" data-act="pick" data-t="${ti}" ${locked?"disabled":""}>${esc(t)}</button>`).join("")+`</div>`;
+    }
+    if(L.phase==="answer"){
+      const ready=q.t==="choice"?L.sel!==null:L.picked.length>0;
+      foot=`<div class="lfoot"><button class="btn" data-act="check" ${ready?"":"disabled"}>Проверить</button></div>`;
+    }else{
+      foot=L.ok?`<div class="lfoot good"><div class="fb"><b>${pickPraise()}</b><p class="ka">${esc(q.sol)}</p></div><button class="btn" data-act="next">Дальше</button></div>`
+             :`<div class="lfoot badf"><div class="fb"><b>Правильный ответ:</b><p class="ka">${esc(q.sol)}</p></div><button class="btn" data-act="next">Понятно</button></div>`;
+    }
+  }
+  app.innerHTML=`<div class="wrap lesson"><div class="lhead"><button class="x" data-act="quit" aria-label="Выйти из урока">×</button><div class="pbar"><i style="width:${prog}%"></i></div></div>
+   <div class="lbody">${body}</div>${foot}</div>`;
+}
+function ruleCard(r){
+  return `<div class="intro"><span class="tag">Правило</span><h3>${esc(r.title)}</h3><p class="rtext">${esc(r.text)}</p>
+  <table class="vt">${r.rows.map(x=>`<tr><td class="who">${esc(x[0])}</td>${x[1]?`<td class="mk">${esc(x[1])}</td>`:""}<td class="ka">${esc(x[2])}</td><td class="ru">${esc(x[3])}</td></tr>`).join("")}</table>
+  <div class="note">${esc(r.note)}</div></div>`;
+}
+function verbCard(v){
+  return `<div class="intro"><span class="tag">Новый глагол</span><h3>${esc(v.ru)}</h3>
+  <table class="vt">${v.forms.map(f=>`<tr><td class="ka">${esc(f[0])}</td><td>${esc(f[1])}</td><td class="ru">${esc(f[2])}</td></tr>`).join("")}</table>
+  <span class="gtag">${esc(GROUPS[v.g])}</span></div>`;
+}
+let praiseI=0;
+function pickPraise(){const p=["Верно!","Отлично!","Так держать!","Молодец!","Точно!"];return p[(praiseI++)%p.length]}
+
+function renderEnd(){
+  const r=L.result,s=streak();
+  app.innerHTML=`<div class="wrap end">
+   <div class="burst">${r.justMet?"🔥":r.perfect?"🍇":"✨"}</div>
+   <h1>${r.justMet?"Цель дня выполнена!":L.review?"Повторение готово":"Урок пройден!"}</h1>
+   <p>${L.review?"Пройденное стало крепче.":esc(L.lesson.title)}</p>
+   <div class="chips"><div class="chip gold"><b>+${r.gain} ✦</b><small>очки</small></div>
+    <div class="chip sea"><b>${r.perfect?"100%":L.mistakes+" ош."}</b><small>${r.perfect?"без ошибок":"исправлено"}</small></div></div>
+   ${r.justMet?`<div class="streakbox">🔥 ${s} ${plural(s,"день","дня","дней")} подряд. Сегодня отмечено!</div>`:`<p style="margin-bottom:24px">Сегодня: ${todayXP()} из ${state.goal} ✦</p>`}
+   <button class="btn grape" data-act="home">Продолжить</button></div>`;
+}
+function plural(n,a,b,c){const m=n%10,h=n%100;return m===1&&h!==11?a:(m>=2&&m<=4&&(h<12||h>14)?b:c)}
+
+/* ---------- Events ---------- */
+app.addEventListener("click",e=>{
+  const b=e.target.closest("[data-act]");if(!b||b.disabled)return;
+  const a=b.dataset.act;
+  if(a==="tab"){ui.tab=b.dataset.tab;render();window.scrollTo(0,0);return}
+  if(a==="start"){startLesson(b.dataset.id);if(L&&L.lesson)L.wasDone=false;return}
+  if(a==="goal"){state.goal=+b.dataset.g;const k=dk(new Date());if(!state.met[k]&&todayXP()>=state.goal)state.met[k]=true;save();render();return}
+  if(a==="ctoggle"){const c=state.custom.find(x=>x.id===b.dataset.id);if(c){c.done=!c.done;save();render()}return}
+  if(a==="cdel"){state.custom=state.custom.filter(x=>x.id!==b.dataset.id);save();render();return}
+  if(a==="cadd"&&b.tagName==="BUTTON"){addCustom();return}
+  if(a==="home"){ui.screen="home";ui.tab="learn";L=null;render();window.scrollTo(0,0);return}
+  if(a==="quit"){ui.screen="home";L=null;render();return}
+  if(!L)return;
+  const q=L.queue[L.i];
+  if(a==="sel"&&L.phase==="answer"){L.sel=+b.dataset.i;render();return}
+  if(a==="pick"&&L.phase==="answer"){const t=+b.dataset.t;if(!L.picked.includes(t))L.picked.push(t);render();return}
+  if(a==="unpick"&&L.phase==="answer"){L.picked.splice(+b.dataset.p,1);render();return}
+  if(a==="check"&&L.phase==="answer"){
+    if(q.t==="choice")L.ok=q.opts[L.sel]===q.ans;
+    else L.ok=L.picked.map(i=>q.tiles[i]).join(q.sep)===q.target.join(q.sep);
+    if(!L.ok){L.mistakes++;L.queue.push(Object.assign({},q,{opts:q.opts?shuffle(q.opts):undefined,tiles:q.tiles?shuffle(q.tiles):undefined}))}
+    L.phase="feedback";render();return;
+  }
+  if(a==="next"){
+    if(q.t==="card"||L.ok)L.done++;
+    L.i++;L.sel=null;L.picked=[];L.phase="answer";L.ok=false;
+    if(L.i>=L.queue.length)finishLesson();else render();
+    return;
+  }
+});
+app.addEventListener("keydown",e=>{if(e.key==="Enter"&&e.target.id==="cinput"){e.preventDefault();addCustom()}});
+function addCustom(){
+  const inp=document.getElementById("cinput");const v=(inp&&inp.value||"").trim();if(!v)return;
+  state.custom.push({id:"c"+Date.now().toString(36),text:v.slice(0,80),done:false});save();render();
+  const n=document.getElementById("cinput");if(n)n.focus();
+}
+render();
+})();
+</script>
+</body>
+</html>
